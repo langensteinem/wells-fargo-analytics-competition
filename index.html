@@ -55,40 +55,40 @@ Below is an outline of our thought process when approaching this project.</p>
 <p>df = read.table('dataset.txt',sep="|",header=T)
 df$FullText = as.character(df$FullText)</p>
 
-<h1>
-<a id="grab-just-the-texts-so-you-can-load-them-in-the-corpus" class="anchor" href="#grab-just-the-texts-so-you-can-load-them-in-the-corpus" aria-hidden="true"><span class="octicon octicon-link"></span></a>Grab just the texts, so you can load them in the Corpus</h1>
+<h3>
+<a id="grab-just-the-texts-so-you-can-load-them-in-the-corpus" class="anchor" href="#grab-just-the-texts-so-you-can-load-them-in-the-corpus" aria-hidden="true"><span class="octicon octicon-link"></span></a>Grab just the texts, so you can load them in the Corpus</h3>
 
 <p>df.texts = as.data.frame(df[,ncol(df)])</p>
 
 <p>colnames(df.texts) = 'FullText'</p>
 
-<h1>
-<a id="remove-non-ascii-characters" class="anchor" href="#remove-non-ascii-characters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remove non-ascii characters</h1>
+<h3>
+<a id="remove-non-ascii-characters" class="anchor" href="#remove-non-ascii-characters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remove non-ascii characters</h3>
 
 <p>df.texts.clean = as.data.frame(iconv(df.texts$FullText, "latin1", "ASCII", sub=""))
 colnames(df.texts.clean) = 'FullText'</p>
 
 <p>df$FullText = df.texts.clean$FullText</p>
 
-<h1>
-<a id="if-you-want-to-test-on-just-1000-records-using-df1000-created-below" class="anchor" href="#if-you-want-to-test-on-just-1000-records-using-df1000-created-below" aria-hidden="true"><span class="octicon octicon-link"></span></a>If you want to test on just 1000 records using df.1000 created below</h1>
+<h3>
+<a id="if-you-want-to-test-on-just-1000-records-using-df1000-created-below" class="anchor" href="#if-you-want-to-test-on-just-1000-records-using-df1000-created-below" aria-hidden="true"><span class="octicon octicon-link"></span></a>If you want to test on just 1000 records using df.1000 created below</h3>
 
 <p>idx.1000 = sample(1:nrow(df),1000)
 df.1000 = df[idx.1000,]</p>
 
-<h1>
-<a id="load-using-the-tm-library" class="anchor" href="#load-using-the-tm-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load using the tm library</h1>
+<h3>
+<a id="load-using-the-tm-library" class="anchor" href="#load-using-the-tm-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load using the tm library</h3>
 
 <p>library(tm) 
 docs &lt;- Corpus(DataframeSource(df.texts.clean))   </p>
 
-<h1>
-<a id="strip-extra-whitespace" class="anchor" href="#strip-extra-whitespace" aria-hidden="true"><span class="octicon octicon-link"></span></a>Strip extra whitespace</h1>
+<h3>
+<a id="strip-extra-whitespace" class="anchor" href="#strip-extra-whitespace" aria-hidden="true"><span class="octicon octicon-link"></span></a>Strip extra whitespace</h3>
 
 <p>docs &lt;- tm_map(docs, stripWhitespace)</p>
 
-<h1>
-<a id="creates-dataframes-based-on-which-banks-the-data-points-mention" class="anchor" href="#creates-dataframes-based-on-which-banks-the-data-points-mention" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creates dataframes based on which banks the data points mention</h1>
+<h3>
+<a id="creates-dataframes-based-on-which-banks-the-data-points-mention" class="anchor" href="#creates-dataframes-based-on-which-banks-the-data-points-mention" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creates dataframes based on which banks the data points mention</h3>
 
 <p>bankA.idx = which( sapply( df$FullText , function( x ) grepl( "BankA" , x ) ) )
 bankB.idx = which( sapply( df$FullText , function( x ) grepl( "BankB" , x ) ) )
@@ -100,62 +100,62 @@ df.bankB = df[ bankB.idx ,   ]
 df.bankC = df[ bankC.idx ,   ]
 df.bankD = df[ bankD.idx ,   ]</p>
 
-<h1>
-<a id="this-turns-out-to-be-too-slow" class="anchor" href="#this-turns-out-to-be-too-slow" aria-hidden="true"><span class="octicon octicon-link"></span></a>This turns out to be too slow</h1>
+<h4>
+<a id="this-turns-out-to-be-too-slow" class="anchor" href="#this-turns-out-to-be-too-slow" aria-hidden="true"><span class="octicon octicon-link"></span></a>This turns out to be too slow</h4>
 
-<h1>
-<a id="add-the-metadata" class="anchor" href="#add-the-metadata" aria-hidden="true"><span class="octicon octicon-link"></span></a>Add the metadata</h1>
+<h3>
+<a id="add-the-metadata" class="anchor" href="#add-the-metadata" aria-hidden="true"><span class="octicon octicon-link"></span></a>Add the metadata</h3>
 
-<h1>
-<a id="this-takes-a-bit-to-run" class="anchor" href="#this-takes-a-bit-to-run" aria-hidden="true"><span class="octicon octicon-link"></span></a>This takes a bit to run</h1>
+<h3>
+<a id="this-takes-a-bit-to-run" class="anchor" href="#this-takes-a-bit-to-run" aria-hidden="true"><span class="octicon octicon-link"></span></a>This takes a bit to run</h3>
 
-<h1>
-<a id="you-can-add-more-here" class="anchor" href="#you-can-add-more-here" aria-hidden="true"><span class="octicon octicon-link"></span></a>You can add more here</h1>
+<h3>
+<a id="you-can-add-more-here" class="anchor" href="#you-can-add-more-here" aria-hidden="true"><span class="octicon octicon-link"></span></a>You can add more here</h3>
 
-<h1>
-<a id="for-i-in-1nrowdf-" class="anchor" href="#for-i-in-1nrowdf-" aria-hidden="true"><span class="octicon octicon-link"></span></a>for (i in 1:nrow(df)) {</h1>
+<h3>
+<a id="for-i-in-1nrowdf-" class="anchor" href="#for-i-in-1nrowdf-" aria-hidden="true"><span class="octicon octicon-link"></span></a>for (i in 1:nrow(df)) {</h3>
 
-<h1>
-<a id="metadocsimediatype--dfmediatypei" class="anchor" href="#metadocsimediatype--dfmediatypei" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"MediaType") = df$MediaType[i]</h1>
+<h3>
+<a id="metadocsimediatype--dfmediatypei" class="anchor" href="#metadocsimediatype--dfmediatypei" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"MediaType") = df$MediaType[i]</h3>
 
-<h1>
-<a id="metadocsiyear--dfyeari" class="anchor" href="#metadocsiyear--dfyeari" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"Year") = df$Year[i]</h1>
+<h3>
+<a id="metadocsiyear--dfyeari" class="anchor" href="#metadocsiyear--dfyeari" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"Year") = df$Year[i]</h3>
 
-<h1>
-<a id="if-greplbankadffulltexti-" class="anchor" href="#if-greplbankadffulltexti-" aria-hidden="true"><span class="octicon octicon-link"></span></a>if (grepl("BankA",df$FullText[i])) {</h1>
+<h3>
+<a id="if-greplbankadffulltexti-" class="anchor" href="#if-greplbankadffulltexti-" aria-hidden="true"><span class="octicon octicon-link"></span></a>if (grepl("BankA",df$FullText[i])) {</h3>
 
-<h1>
-<a id="metadocsibanka--t" class="anchor" href="#metadocsibanka--t" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankA") = T</h1>
+<h3>
+<a id="metadocsibanka--t" class="anchor" href="#metadocsibanka--t" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankA") = T</h3>
 
-<h1>
-<a id="-else-" class="anchor" href="#-else-" aria-hidden="true"><span class="octicon octicon-link"></span></a>} else {</h1>
+<h3>
+<a id="-else-" class="anchor" href="#-else-" aria-hidden="true"><span class="octicon octicon-link"></span></a>} else {</h3>
 
-<h1>
-<a id="metadocsibanka--f" class="anchor" href="#metadocsibanka--f" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankA") = F</h1>
+<h3>
+<a id="metadocsibanka--f" class="anchor" href="#metadocsibanka--f" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankA") = F</h3>
 
-<h1>
-<a id="" class="anchor" href="#" aria-hidden="true"><span class="octicon octicon-link"></span></a>}</h1>
+<h3>
+<a id="" class="anchor" href="#" aria-hidden="true"><span class="octicon octicon-link"></span></a>}</h3>
 
-<h1>
-<a id="if-greplbankbdffulltexti-" class="anchor" href="#if-greplbankbdffulltexti-" aria-hidden="true"><span class="octicon octicon-link"></span></a>if (grepl("BankB",df$FullText[i])) {</h1>
+<h3>
+<a id="if-greplbankbdffulltexti-" class="anchor" href="#if-greplbankbdffulltexti-" aria-hidden="true"><span class="octicon octicon-link"></span></a>if (grepl("BankB",df$FullText[i])) {</h3>
 
-<h1>
-<a id="metadocsibankb--t" class="anchor" href="#metadocsibankb--t" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankB") = T</h1>
+<h3>
+<a id="metadocsibankb--t" class="anchor" href="#metadocsibankb--t" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankB") = T</h3>
 
-<h1>
-<a id="-else--1" class="anchor" href="#-else--1" aria-hidden="true"><span class="octicon octicon-link"></span></a>} else {</h1>
+<h3>
+<a id="-else--1" class="anchor" href="#-else--1" aria-hidden="true"><span class="octicon octicon-link"></span></a>} else {</h3>
 
-<h1>
-<a id="metadocsibankb--f" class="anchor" href="#metadocsibankb--f" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankB") = F</h1>
+<h3>
+<a id="metadocsibankb--f" class="anchor" href="#metadocsibankb--f" aria-hidden="true"><span class="octicon octicon-link"></span></a>meta(docs[[i]],"BankB") = F</h3>
 
-<h1>
-<a id="-1" class="anchor" href="#-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>}</h1>
+<h3>
+<a id="-1" class="anchor" href="#-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>}</h3>
 
-<h1>
-<a id="-2" class="anchor" href="#-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>}</h1>
+<h3>
+<a id="-2" class="anchor" href="#-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>}</h3>
 
-<h1>
-<a id="bankaidx---metadocs-banka--t" class="anchor" href="#bankaidx---metadocs-banka--t" aria-hidden="true"><span class="octicon octicon-link"></span></a>bankA.idx &lt;- meta(docs, "BankA") == T</h1>
+<h3>
+<a id="bankaidx---metadocs-banka--t" class="anchor" href="#bankaidx---metadocs-banka--t" aria-hidden="true"><span class="octicon octicon-link"></span></a>bankA.idx &lt;- meta(docs, "BankA") == T</h3>
 
 <p>bankA.docs = docs[bankA.idx]
 bankB.docs = docs[bankB.idx]
@@ -166,25 +166,25 @@ bankD.docs = docs[bankD.idx]</p>
 
 <p>docs &lt;- tm_map(docs, removePunctuation) </p>
 
-<h1>
-<a id="since-we-cant-find-a-great-package-in-r-im-going-to-use-an" class="anchor" href="#since-we-cant-find-a-great-package-in-r-im-going-to-use-an" aria-hidden="true"><span class="octicon octicon-link"></span></a>Since we can't find a great package in R, I'm going to use an</h1>
+<h3>
+<a id="since-we-cant-find-a-great-package-in-r-im-going-to-use-an" class="anchor" href="#since-we-cant-find-a-great-package-in-r-im-going-to-use-an" aria-hidden="true"><span class="octicon octicon-link"></span></a>Since we can't find a great package in R, I'm going to use an</h3>
 
-<h1>
-<a id="example-i-found-online-to-build-our-own" class="anchor" href="#example-i-found-online-to-build-our-own" aria-hidden="true"><span class="octicon octicon-link"></span></a>example I found online to build our own</h1>
+<h3>
+<a id="example-i-found-online-to-build-our-own" class="anchor" href="#example-i-found-online-to-build-our-own" aria-hidden="true"><span class="octicon octicon-link"></span></a>example I found online to build our own</h3>
 
-<h1>
+<h3>
 <a id="based-on-httpwwwihubcokeblogs23216" class="anchor" href="#based-on-httpwwwihubcokeblogs23216" aria-hidden="true"><span class="octicon octicon-link"></span></a>Based on: <a href="http://www.ihub.co.ke/blogs/23216">http://www.ihub.co.ke/blogs/23216</a>
-</h1>
+</h3>
 
-<h1>
-<a id="only-need-to-do-once" class="anchor" href="#only-need-to-do-once" aria-hidden="true"><span class="octicon octicon-link"></span></a>Only need to do once</h1>
+<h3>
+<a id="only-need-to-do-once" class="anchor" href="#only-need-to-do-once" aria-hidden="true"><span class="octicon octicon-link"></span></a>Only need to do once</h3>
 
-<h1>
+<h3>
 <a id="download-and-upload-httpwwwcsuiceduliubfbsopinion-lexicon-englishrar" class="anchor" href="#download-and-upload-httpwwwcsuiceduliubfbsopinion-lexicon-englishrar" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download and upload: <a href="http://www.cs.uic.edu/%7Eliub/FBS/opinion-lexicon-English.rar">http://www.cs.uic.edu/~liub/FBS/opinion-lexicon-English.rar</a>
-</h1>
+</h3>
 
-<h1>
-<a id="systemunrar-e-opinion-lexicon-englishrar" class="anchor" href="#systemunrar-e-opinion-lexicon-englishrar" aria-hidden="true"><span class="octicon octicon-link"></span></a>system('unrar e opinion-lexicon-English.rar')</h1>
+<h3>
+<a id="systemunrar-e-opinion-lexicon-englishrar" class="anchor" href="#systemunrar-e-opinion-lexicon-englishrar" aria-hidden="true"><span class="octicon octicon-link"></span></a>system('unrar e opinion-lexicon-English.rar')</h3>
 
 <p>pos &lt;- scan('positive-words.txt',what='character',comment.char=';')
 neg &lt;- scan('negative-words.txt',what='character',comment.char=';')</p>
@@ -194,34 +194,34 @@ neg &lt;- scan('negative-words.txt',what='character',comment.char=';')</p>
   require(plyr)
   require(stringr)</p>
 
-<p># we got a vector of sentences. plyr will handle a list
-  # or a vector as an "l" for us
-  # we want a simple array ("a") of scores back, so we use 
-  # "l" + "a" + "ply" = "laply":
+<p>### we got a vector of sentences. plyr will handle a list
+  ### or a vector as an "l" for us
+  ### we want a simple array ("a") of scores back, so we use 
+  ### "l" + "a" + "ply" = "laply":
   scores = laply(sentences, function(sentence, pos.words, neg.words) {</p>
 
-<pre><code># clean up sentences with R's regex-driven global substitute, gsub():
+<pre><code>### clean up sentences with R's regex-driven global substitute, gsub():
 sentence = gsub('[[:punct:]]', '', sentence)
 sentence = gsub('[[:cntrl:]]', '', sentence)
 sentence = gsub('\\d+', '', sentence)
-# and convert to lower case:
+### and convert to lower case:
 sentence = tolower(sentence)
 
-# split into words. str_split is in the stringr package
+### split into words. str_split is in the stringr package
 word.list = str_split(sentence, '\\s+')
-# sometimes a list() is one level of hierarchy too much
+### sometimes a list() is one level of hierarchy too much
 words = unlist(word.list)
 
-# compare our words to the dictionaries of positive &amp; negative terms
+### compare our words to the dictionaries of positive &amp; negative terms
 pos.matches = match(words, pos.words)
 neg.matches = match(words, neg.words)
 
-# match() returns the position of the matched term or NA
-# we just want a TRUE/FALSE:
+### match() returns the position of the matched term or NA
+### we just want a TRUE/FALSE:
 pos.matches = !is.na(pos.matches)
 neg.matches = !is.na(neg.matches)
 
-# and conveniently enough, TRUE/FALSE will be treated as 1/0 by sum():
+### and conveniently enough, TRUE/FALSE will be treated as 1/0 by sum():
 score = sum(pos.matches) - sum(neg.matches)
 
 return(score)
@@ -237,14 +237,14 @@ return(score)
 bankA.scores$very.pos = as.numeric(bankA.scores$score &gt;= 2)
 bankA.scores$very.neg = as.numeric(bankA.scores$score &lt;= -2)</p>
 
-<h1>
-<a id="how-many-very-positives-and-very-negatives" class="anchor" href="#how-many-very-positives-and-very-negatives" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h1>
+<h3>
+<a id="how-many-very-positives-and-very-negatives" class="anchor" href="#how-many-very-positives-and-very-negatives" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h3>
 
 <p>bankA.numpos = sum(bankA.scores$very.pos)
 bankA.numneg = sum(bankA.scores$very.neg)</p>
 
-<h1>
-<a id="global-score" class="anchor" href="#global-score" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h1>
+<h3>
+<a id="global-score" class="anchor" href="#global-score" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h3>
 
 <p>bankA.global_score = round( 100 * bankA.numpos / (bankA.numpos + bankA.numneg) )</p>
 
@@ -254,14 +254,14 @@ bankA.numneg = sum(bankA.scores$very.neg)</p>
 bankB.scores$very.pos = as.numeric(bankB.scores$score &gt;= 2)
 bankB.scores$very.neg = as.numeric(bankB.scores$score &lt;= -2)</p>
 
-<h1>
-<a id="how-many-very-positives-and-very-negatives-1" class="anchor" href="#how-many-very-positives-and-very-negatives-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h1>
+<h3>
+<a id="how-many-very-positives-and-very-negatives-1" class="anchor" href="#how-many-very-positives-and-very-negatives-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h3>
 
 <p>bankB.numpos = sum(bankB.scores$very.pos)
 bankB.numneg = sum(bankB.scores$very.neg)</p>
 
-<h1>
-<a id="global-score-1" class="anchor" href="#global-score-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h1>
+<h3>
+<a id="global-score-1" class="anchor" href="#global-score-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h3>
 
 <p>bankB.global_score = round( 100 * bankB.numpos / (bankB.numpos + bankB.numneg) )</p>
 
@@ -271,14 +271,14 @@ bankB.numneg = sum(bankB.scores$very.neg)</p>
 bankC.scores$very.pos = as.numeric(bankC.scores$score &gt;= 2)
 bankC.scores$very.neg = as.numeric(bankC.scores$score &lt;= -2)</p>
 
-<h1>
-<a id="how-many-very-positives-and-very-negatives-2" class="anchor" href="#how-many-very-positives-and-very-negatives-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h1>
+<h3>
+<a id="how-many-very-positives-and-very-negatives-2" class="anchor" href="#how-many-very-positives-and-very-negatives-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h3>
 
 <p>bankC.numpos = sum(bankC.scores$very.pos)
 bankC.numneg = sum(bankC.scores$very.neg)</p>
 
-<h1>
-<a id="global-score-2" class="anchor" href="#global-score-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h1>
+<h3>
+<a id="global-score-2" class="anchor" href="#global-score-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h3>
 
 <p>bankC.global_score = round( 100 * bankC.numpos / (bankC.numpos + bankC.numneg) )</p>
 
@@ -288,21 +288,21 @@ bankC.numneg = sum(bankC.scores$very.neg)</p>
 bankD.scores$very.pos = as.numeric(bankD.scores$score &gt;= 2)
 bankD.scores$very.neg = as.numeric(bankD.scores$score &lt;= -2)</p>
 
-<h1>
-<a id="how-many-very-positives-and-very-negatives-3" class="anchor" href="#how-many-very-positives-and-very-negatives-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h1>
+<h3>
+<a id="how-many-very-positives-and-very-negatives-3" class="anchor" href="#how-many-very-positives-and-very-negatives-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>how many very positives and very negatives</h3>
 
 <p>bankD.numpos = sum(bankD.scores$very.pos)
 bankD.numneg = sum(bankD.scores$very.neg)</p>
 
-<h1>
-<a id="global-score-3" class="anchor" href="#global-score-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h1>
+<h3>
+<a id="global-score-3" class="anchor" href="#global-score-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>global score</h3>
 
 <p>bankD.global_score = round( 100 * bankD.numpos / (bankD.numpos + bankD.numneg) )</p>
 
 <p>bankD.scores$mediatype = df.bankD$MediaType</p>
 
-<h1>
-<a id="function-for-finding-frequent-words" class="anchor" href="#function-for-finding-frequent-words" aria-hidden="true"><span class="octicon octicon-link"></span></a>function for finding frequent words</h1>
+<h3>
+<a id="function-for-finding-frequent-words" class="anchor" href="#function-for-finding-frequent-words" aria-hidden="true"><span class="octicon octicon-link"></span></a>function for finding frequent words</h3>
 
 <p>find.freq.words &lt;- function( bank.scores , sentiment )
 {
@@ -348,8 +348,8 @@ bankB.neg.ord &lt;- order( bankB.neg.freq )
 bankC.neg.ord &lt;- order( bankC.neg.freq )
 bankD.neg.ord &lt;- order( bankD.neg.freq )</p>
 
-<h1>
-<a id="prints-frequent-words" class="anchor" href="#prints-frequent-words" aria-hidden="true"><span class="octicon octicon-link"></span></a>prints frequent words</h1>
+<h3>
+<a id="prints-frequent-words" class="anchor" href="#prints-frequent-words" aria-hidden="true"><span class="octicon octicon-link"></span></a>prints frequent words</h3>
 
 <p>bankA.pos.freq[ tail( bankA.pos.ord , 100 ) ]
 bankB.pos.freq[ tail( bankB.pos.ord , 100 ) ]
@@ -360,8 +360,8 @@ bankB.neg.freq[ tail( bankB.neg.ord , 100 ) ]
 bankC.neg.freq[ tail( bankC.neg.ord , 100 ) ]
 bankD.neg.freq[ tail( bankD.neg.ord , 100 ) ]</p>
 
-<h1>
-<a id="gererates-word-clouds" class="anchor" href="#gererates-word-clouds" aria-hidden="true"><span class="octicon octicon-link"></span></a>gererates word clouds</h1>
+<h3>
+<a id="gererates-word-clouds" class="anchor" href="#gererates-word-clouds" aria-hidden="true"><span class="octicon octicon-link"></span></a>gererates word clouds</h3>
 
 <p>set.seed( 142 )
 wordcloud( names( bankA.pos.freq ), bankA.pos.freq , min.freq = 100 )
